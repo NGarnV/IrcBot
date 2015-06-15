@@ -19,7 +19,7 @@ def sendmsg(recipient, msg):  # This is the send message function, it simply sen
 def joinchan(chan):  # This function is used to join channels.
     ircsock.send("JOIN " + chan + "\n")
 
-
+#---------------------------------------------------------------------------------------------------------------------------#
 
 ircsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ircsock.connect((server, 6667))  # connect to the server using the port 6667
@@ -27,9 +27,14 @@ ircsock.send("USER " + botnick + " " + botnick + " " + botnick + " :some stuff\n
 ircsock.send("NICK " + botnick + "\n")  # here we actually assign the nick to the bot
 joinchan(channel)  # Join the channel using the functions we previously defined
 
+#---------------------------------------------------------------------------------------------------------------------------#
 while 1:
     ircmsg = ircsock.recv(1024)  # receive data from the server
   # ircmsg = ircmsg.strip('\n\r')  # removing any unnecessary linebreaks.
+   # if ircmsg:
+    #    continue
+     #   break
+
     print(ircmsg)  # Here we print what's coming from the server
 
     # if ircmsg.find(botnick) in ircmsg and "PRIVMSG ") in ircmsg and "rizon") == -1:
@@ -41,15 +46,17 @@ while 1:
         sendmsg(channel, commands.sentence())
         continue
 
-    if " :.feel" in ircmsg and channel in ircmsg:  # If we can find ".feel" it will call the function feel()
-        array = commands.feel()
-        sendmsg(channel, array[0])
-        user = ircmsg.split(":")[1].split('!')[0]
-        sendmsg(user, array[1])
-        continue
-
-    if " :website" in ircmsg and channel in ircmsg:
-        website()
+    #if " :.feel" in ircmsg and channel in ircmsg:  # If we can find ".feel" it will call the function feel()
+    ##   array = commands.feel()
+    ##   sendmsg(channel, array[0])
+    ##   user = ircmsg.split(":")[1].split('!')[0]
+    ##   sendmsg(user, array[1])
+    ##   continue
+#----------------------------------------------------------------------------------------------------------------------------#
+    
+    if " :.website" in ircmsg and channel in ircmsg:
+        wsite = commands.website()
+        sendmsg(wsite)
         continue
 
     if "PING :" in ircmsg:  # respond to pings
